@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public class Container<T> {
+public class CustomContainer<T> {
 
     private final List<T> list = new CopyOnWriteArrayList<>();
 

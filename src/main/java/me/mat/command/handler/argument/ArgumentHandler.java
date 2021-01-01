@@ -7,10 +7,10 @@ import me.mat.command.data.GenericArgumentData;
 import me.mat.command.data.NumberArgumentData;
 import me.mat.command.data.StringArgumentData;
 import me.mat.command.handler.argument.processor.ArgumentProcessor;
-import me.mat.command.util.MapContainer;
+import me.mat.command.util.CustomMapContainer;
 
 @Getter
-public class ArgumentHandler extends MapContainer<Class<? extends ArgumentData>, ArgumentProcessor> {
+public class ArgumentHandler extends CustomMapContainer<Class<? extends ArgumentData>, ArgumentProcessor> {
 
     private final CommandManager commandManager;
     private final GenericArgumentHandler genericArgumentHandler;

@@ -5,13 +5,13 @@ import lombok.Setter;
 import me.mat.command.data.ArgumentData;
 import me.mat.command.exceptions.UnsupportedParameterException;
 import me.mat.command.manifest.Default;
-import me.mat.command.util.MapContainer;
+import me.mat.command.util.CustomMapContainer;
 
 import java.lang.reflect.Method;
 import java.util.*;
 
 @Getter
-public class Command extends MapContainer<String, List<ArgumentData>> {
+public class Command extends CustomMapContainer<String, List<ArgumentData>> {
 
     public static final String DEFAULT_NO_ARGS_KEY = "##default##no##args";
     public static final String DEFAULT_ARGS_KEY = "##default##args";

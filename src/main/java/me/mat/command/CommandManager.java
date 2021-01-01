@@ -14,7 +14,7 @@ import me.mat.command.handler.argument.ArgumentHandler;
 import me.mat.command.handler.argument.processor.ArgumentProcessor;
 import me.mat.command.handler.argument.processor.GenericArgumentProcessor;
 import me.mat.command.manifest.Argument;
-import me.mat.command.util.Container;
+import me.mat.command.util.CustomContainer;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CommandManager extends Container<Command> {
+public class CommandManager extends CustomContainer<Command> {
 
     private final ArgumentHandler argumentHandler;
     private final TypeHandler typeHandler;

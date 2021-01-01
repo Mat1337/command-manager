@@ -6,12 +6,12 @@ import me.mat.command.data.NumberArgumentData;
 import me.mat.command.data.StringArgumentData;
 import me.mat.command.manifest.NumberArg;
 import me.mat.command.manifest.StringArg;
-import me.mat.command.util.MapContainer;
+import me.mat.command.util.CustomMapContainer;
 
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
 
-public class TypeHandler extends MapContainer<Class<?>, TypeProcessor> {
+public class TypeHandler extends CustomMapContainer<Class<?>, TypeProcessor> {
 
     private static final Class<?>[] NUMBERS = {byte.class, short.class, int.class, float.class, double.class, long.class};
 

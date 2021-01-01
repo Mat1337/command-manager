@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
 
-public class MapContainer<K, V> {
+public class CustomMapContainer<K, V> {
 
     private final Map<K, V> map = new HashMap<>();
 

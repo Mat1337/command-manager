@@ -4,10 +4,10 @@ import lombok.Getter;
 import me.mat.command.Command;
 import me.mat.command.CommandManager;
 import me.mat.command.handler.argument.processor.GenericArgumentProcessor;
-import me.mat.command.util.MapContainer;
+import me.mat.command.util.CustomMapContainer;
 
 @Getter
-public class GenericArgumentHandler extends MapContainer<Class<?>, GenericArgumentProcessor> {
+public class GenericArgumentHandler extends CustomMapContainer<Class<?>, GenericArgumentProcessor> {
 
     private final CommandManager commandManager;
 
