@@ -1,3 +1,5 @@
+[![](https://jitpack.io/v/Mat1337/command-manager.svg)](https://jitpack.io/#Mat1337/command-manager)
+
 # command-manager
 This is a CommandManager that I use in all my projects
 
