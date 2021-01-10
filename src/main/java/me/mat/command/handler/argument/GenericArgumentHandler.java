@@ -6,6 +6,8 @@ import me.mat.command.CommandManager;
 import me.mat.command.handler.argument.processor.GenericArgumentProcessor;
 import me.mat.command.util.CustomMapContainer;
 
+import java.util.Optional;
+
 @Getter
 public class GenericArgumentHandler extends CustomMapContainer<Class<?>, GenericArgumentProcessor> {
 
@@ -30,7 +32,12 @@ public class GenericArgumentHandler extends CustomMapContainer<Class<?>, Generic
         put(Command.class, new GenericArgumentProcessor() {
             @Override
             public Object process(String argument, Class<?> parameter) {
-                return commandManager.find(command -> command.isLabel(argument)).orElse(null);
+                Optional<Command> optional = commandManager.find(command -> command.isLabel(argument));
+                if (!optional.isPresent()) {
+                    printError(commandManager.getConfig().invalidCommand, argument);
+                    return null;
+                }
+                return optional.get();
             }
         });
     }
@@ -38,7 +45,6 @@ public class GenericArgumentHandler extends CustomMapContainer<Class<?>, Generic
     @Override
     public void put(Class<?> key, GenericArgumentProcessor value) {
         value.setGenericArgumentHandler(this);
-
         super.put(key, value);
     }
 

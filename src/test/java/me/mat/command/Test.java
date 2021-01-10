@@ -11,7 +11,7 @@ public class Test {
     private final CommandManager commandManager;
 
     private Test() {
-        commandManager = new CommandManager();
+        commandManager = new CommandManager(".");
 
         commandManager.addCommand(
                 new TestCommand("test", "test [arg1] [arg2]", "Test command", "t")

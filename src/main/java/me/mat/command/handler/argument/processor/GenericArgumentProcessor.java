@@ -23,7 +23,7 @@ public abstract class GenericArgumentProcessor {
     }
 
     public void invalidArgumentType(Object... params) {
-        printError("Invalid argument type (Expected: %s, Received: %s)", params);
+        printError(genericArgumentHandler.getCommandManager().getConfig().invalidArgument, params);
     }
 
 }

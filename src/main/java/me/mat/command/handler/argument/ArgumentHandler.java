@@ -32,9 +32,9 @@ public class ArgumentHandler extends CustomMapContainer<Class<? extends Argument
                 int maxLength = data.getMaxLength();
 
                 if (length > maxLength) {
-                    printWarning("String \"%s\" cant have a length more then %d characters", argument, maxLength);
+                    printWarning(commandManager.getConfig().stringBiggerThenExpected, argument, maxLength);
                 } else if (length < minLength) {
-                    printWarning("String \"%s\" has to have a minimum length of %d", argument, minLength);
+                    printWarning(commandManager.getConfig().stringSmallerThenExpected, argument, minLength);
                 } else {
                     return argument;
                 }
@@ -77,9 +77,9 @@ public class ArgumentHandler extends CustomMapContainer<Class<? extends Argument
                 double min = data.getMin();
 
                 if (amount > max) {
-                    printWarning("Value \"%d\" is more the maximum value (max: %d)", amount, max);
+                    printWarning(commandManager.getConfig().numberBiggerThenExpected, amount, max);
                 } else if (amount < min) {
-                    printWarning("Value \"%d\" is less then the minimum value (min: %d)", amount, min);
+                    printWarning(commandManager.getConfig().numberSmallerThenExpected, amount, min);
                 } else {
                     return true;
                 }

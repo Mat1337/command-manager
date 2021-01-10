@@ -1,5 +1,6 @@
 package me.mat.command;
 
+import lombok.Getter;
 import lombok.Setter;
 import lombok.val;
 import me.mat.command.channel.MessageOutputChannel;
@@ -29,6 +30,9 @@ public class CommandManager extends CustomContainer<Command> {
     private final ArgumentHandler argumentHandler;
     private final TypeHandler typeHandler;
 
+    @Getter
+    private final Config config;
+
     private final String prefix;
 
     @Setter
@@ -40,6 +44,15 @@ public class CommandManager extends CustomContainer<Command> {
 
         this.argumentHandler = new ArgumentHandler(this);
         this.typeHandler = new TypeHandler();
+        this.config = new Config(
+                "Please type %shelp for more information",
+                "\"%s\" is not a valid command",
+                "\"Invalid argument type (Expected: %s, Received: %s)\"",
+                "String \"%s\" cant have a length more then %d characters",
+                "String \"%s\" has to have a minimum length of %d",
+                "Value \"%d\" is more the maximum value (max: %d)",
+                "Value \"%d\" is less then the minimum value (min: %d)"
+        );
 
         this.addCommand(new HelpCommand("help", "help [command]", "Shows you information about other commands"));
     }
@@ -126,13 +139,13 @@ public class CommandManager extends CustomContainer<Command> {
         if (baseArgs.length > 0) {
             val label = baseArgs[0];
             if (label.isEmpty()) {
-                print("Please type %shelp for more information", prefix != null ? prefix : "");
+                print(config.noCommand, prefix != null ? prefix : "");
                 return true;
             }
 
             val search = find(command -> command.isLabel(label));
             if (!search.isPresent()) {
-                printError("\"%s\" is not a valid command", label);
+                printError(config.invalidCommand, label);
                 return true;
             }
 

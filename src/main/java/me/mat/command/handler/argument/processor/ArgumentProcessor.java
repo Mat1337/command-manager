@@ -24,7 +24,7 @@ public abstract class ArgumentProcessor<T extends ArgumentData> {
     }
 
     public void invalidArgumentType(Object... params) {
-        printError("Invalid argument type (Expected: %s, Received: %s)", params);
+        printError(argumentHandler.getCommandManager().getConfig().invalidArgument, params);
     }
 
 }
