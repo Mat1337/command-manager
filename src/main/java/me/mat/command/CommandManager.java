@@ -62,6 +62,7 @@ public class CommandManager extends CustomContainer<Command> {
      * @param type              that you want to add
      * @param typeProcessor     that will be used to parse the type
      * @param argumentProcessor that will be used to parse the argument
+     *
      * @throws InvalidProcessorTypeException
      * @throws InvalidTypeException
      */
@@ -90,6 +91,7 @@ public class CommandManager extends CustomContainer<Command> {
      *
      * @param type      that the processor will parse
      * @param processor and the processor that will be used
+     *
      * @throws InvalidTypeException
      */
 
@@ -107,6 +109,7 @@ public class CommandManager extends CustomContainer<Command> {
      * and executes any commands matching the arguments
      *
      * @param message that you want to parse
+     *
      * @return true/false depending if the parsing was successful
      */
 
@@ -141,7 +144,7 @@ public class CommandManager extends CustomContainer<Command> {
                 try {
                     if (!command.hasOnlyDefaults()) {
                         if (argsLength > 0) {
-                            val argLabel = args[0];
+                            val argLabel = args[0] + "[" + (args.length - 1) + "]";
                             if (command.isArgument(argLabel)) {
                                 val subArgs = new String[args.length - 1];
                                 System.arraycopy(args, 1, subArgs, 0, subArgs.length);
@@ -179,6 +182,7 @@ public class CommandManager extends CustomContainer<Command> {
      *
      * @param command that you want to invoke the default method from
      * @param args    that will be used
+     *
      * @throws InvocationTargetException
      * @throws IllegalAccessException
      */
@@ -196,7 +200,9 @@ public class CommandManager extends CustomContainer<Command> {
      * @param args    that will be used
      * @param data    a list of ArgumentData
      * @param method  that will be invoked
+     *
      * @return
+     *
      * @throws InvocationTargetException
      * @throws IllegalAccessException
      */
@@ -223,6 +229,7 @@ public class CommandManager extends CustomContainer<Command> {
      *
      * @param command    that you want to get the default method from
      * @param argsLength length of the arguments
+     *
      * @return a default method
      */
 
@@ -243,6 +250,7 @@ public class CommandManager extends CustomContainer<Command> {
      *
      * @param command    that you want to get the default data from
      * @param argsLength length of the arguments
+     *
      * @return a list filled with default argument data
      */
 
@@ -265,6 +273,7 @@ public class CommandManager extends CustomContainer<Command> {
      * @param args       of the message that will be checked against
      * @param data       a list of all the ArgumentData objects that were generated
      * @param parsedData a list of all the processed data ready to be sent to the method
+     *
      * @return true/false depending if the processing has finished with no errors
      */
 
@@ -323,8 +332,8 @@ public class CommandManager extends CustomContainer<Command> {
                 .filter(method -> method.getReturnType() == boolean.class)
                 .forEach(method -> {
                     String argument = method.getAnnotation(Argument.class).value();
-                    if (!argument.isEmpty()) {
-                        command.getLookUp().put(argument, method);
+                    if (argument.length() > 0) {
+                        command.getLookUp().put(argument + "[" + method.getParameterTypes().length + "]", method);
 
                         try {
                             generateArgumentData(command, argument, method);
@@ -349,19 +358,23 @@ public class CommandManager extends CustomContainer<Command> {
      * @param command  that the argument originated from
      * @param argument that you want to generate the data for
      * @param method   the method that the argument originated from
+     *
      * @throws UnsupportedParameterException
      */
 
     public void generateArgumentData(Command command, String argument, Method method) throws UnsupportedParameterException {
         val parameters = method.getParameterTypes();
 
-        command.putIfAbsent(argument, new ArrayList<>());
+        StringBuilder argumentName = new StringBuilder(argument);
+        argumentName.append("[").append(parameters.length).append("]");
+
+        command.putIfAbsent(argumentName.toString(), new ArrayList<>());
 
         method.setAccessible(true);
 
         if (parameters.length > 0) {
 
-            val data = command.get(argument);
+            val data = command.get(argumentName.toString());
             for (val aClass : parameters) {
                 val argumentData = typeHandler.process(aClass, getAnnotation(aClass, method));
                 if (argumentData != null) {
@@ -378,7 +391,7 @@ public class CommandManager extends CustomContainer<Command> {
             }
 
             if (!data.isEmpty()) {
-                command.put(argument, data);
+                command.put(argumentName.toString(), data);
             }
         }
     }
@@ -421,6 +434,7 @@ public class CommandManager extends CustomContainer<Command> {
      *
      * @param parameter class that you want to target
      * @param method    that you want to search in
+     *
      * @return java.lang.annotation.Annotation that was found
      */
 
