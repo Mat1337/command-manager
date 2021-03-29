@@ -80,6 +80,15 @@ public class CommandManager {
         }
     }
 
+    /**
+     * Parses the message and executes
+     * the target command
+     *
+     * @param message that you want to parse
+     *
+     * @return true/false depending if the message was parsed or not
+     */
+
     public boolean parse(String message) {
         // split the message into arguments
         String[] args = message.split(" ");
