@@ -21,10 +21,18 @@ public class TypeUtil {
         return isNumber(str) && str.contains(".");
     }
 
+    public static boolean isBoolean(String str) {
+        return str.toLowerCase().contains("false") || str.toLowerCase().contains("true");
+    }
+
     public static boolean isNumber(Class<?> aClass) {
         return aClass.equals(byte.class) || aClass.equals(short.class)
                 || aClass.equals(int.class) || aClass.equals(double.class)
                 || aClass.equals(float.class) || aClass.equals(long.class);
+    }
+
+    public static boolean isBoolean(Class<?> aClass) {
+        return aClass.equals(boolean.class);
     }
 
 }

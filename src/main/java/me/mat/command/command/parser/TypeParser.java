@@ -29,9 +29,12 @@ public class TypeParser {
 
             if (type.equals(String.class)) {
                 objects[i] = args[i];
+                continue;
             }
 
-            if (TypeUtil.isNumber(type) && TypeUtil.isNumber(arg)
+            if (TypeUtil.isBoolean(type) && TypeUtil.isBoolean(arg)) {
+                objects[i] = Boolean.parseBoolean(arg);
+            } else if (TypeUtil.isNumber(type) && TypeUtil.isNumber(arg)
                     && canParseNumber(type, arg)) {
                 objects[i] = parseNumber(type, arg);
             } else {
@@ -56,7 +59,8 @@ public class TypeParser {
             Class<?> type = types[i];
             String arg = args[i];
 
-            if (type.equals(String.class)) {
+            if (type.equals(String.class)
+                    || (type.equals(boolean.class) && TypeUtil.isBoolean(arg))) {
                 continue;
             }
 

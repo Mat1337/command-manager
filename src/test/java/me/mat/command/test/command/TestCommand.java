@@ -15,7 +15,7 @@ import me.mat.command.command.manifest.Default;
 @CommandInfo(
         label = "test",
         description = "This is a test command",
-        usage = "test <test/test> [name]",
+        usage = "test <test/test/set> [name]",
         aliases = {
                 "t"
         })
@@ -48,6 +48,12 @@ public class TestCommand extends Command {
     @Argument("test")
     boolean test(String name, int l) {
         System.out.println("test(Ljava/lang/String;L)V > name: " + name + ", l: " + l);
+        return true;
+    }
+
+    @Argument("set")
+    boolean set(String name, boolean flag) {
+        System.out.println("set(Ljava/lang/String;Z)Z > Name: " + name + " flag: " + flag);
         return true;
     }
 
