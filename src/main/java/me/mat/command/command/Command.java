@@ -21,6 +21,8 @@ import java.util.stream.Stream;
  */
 public class Command {
 
+    public static final String DEFAULT_KEY = "@DEFAULT_METHOD@";
+
     private final CommandInfo commandInfo;
     private final List<CommandArgument> commandArguments;
 
@@ -47,6 +49,16 @@ public class Command {
         this.loadArguments();
     }
 
+    /**
+     * Invokes the method with the given parameters
+     *
+     * @param commandArgument argument that will be executed
+     * @param args            arguments of the call
+     * @param typeParser      type parser used for parsing the arguments
+     *
+     * @return true/false depending if the the method prints usage or not
+     */
+
     public boolean invoke(CommandArgument commandArgument, String[] args, TypeParser typeParser) {
         try {
             return (boolean) commandArgument.getMethod().invoke(
@@ -60,15 +72,39 @@ public class Command {
         return false;
     }
 
+    /**
+     * Finds the correct argument
+     * based on the given parameters
+     *
+     * @param label      name of the argument
+     * @param args       arguments to test against
+     * @param typeParser type parser used for parsing the arguments
+     *
+     * @return {@link CommandArgument}
+     */
+
     public CommandArgument find(String label, String[] args, TypeParser typeParser) {
+
+        if (args.length == 0) {
+            for (CommandArgument commandArgument : commandArguments) {
+                if (commandArgument.getLabel().equalsIgnoreCase(DEFAULT_KEY)) {
+                    Class<?>[] types = commandArgument.getArgumentTypes();
+                    if (types.length == 1
+                            && label != null && !label.isEmpty()
+                            && typeParser.match(types, new String[]{label})) {
+                        return commandArgument;
+                    } else if (commandArgument.getArgumentTypes().length == 0 && (label == null || label.isEmpty())) {
+                        return commandArgument;
+                    }
+                }
+            }
+        }
+
         for (CommandArgument ca : commandArguments) {
-            if ((ca.getLabel() == null && label == null
-                    && ca.getArgumentTypes() == null && args != null && args.length == 0) ||
-                    (ca.getLabel() != null && ca.getLabel().equalsIgnoreCase(label)
-                            && ca.getArgumentTypes() == null && args != null && args.length == 0) ||
-                    (ca.getLabel() != null && ca.getLabel().equalsIgnoreCase(label)
-                            && ca.getArgumentTypes() != null && args != null
-                            && typeParser.match(ca.getArgumentTypes(), args))) {
+            String caLabel = ca.getLabel();
+            Class<?>[] caTypes = ca.getArgumentTypes();
+
+            if (caLabel != null && caLabel.equalsIgnoreCase(label) && caTypes.length == args.length && typeParser.match(caTypes, args)) {
                 return ca;
             }
         }
@@ -117,10 +153,14 @@ public class Command {
 
             // if it does set the label to the argument name
             label = method.getAnnotation(Argument.class).value();
+        } else if (method.isAnnotationPresent(Default.class)) {
+
+            // if the method has the default annotation set it to the default key
+            label = DEFAULT_KEY;
         }
 
         // define the parameter types array
-        Class<?>[] parameterTypes = null;
+        Class<?>[] parameterTypes = new Class<?>[0];
 
         // check if the methods parameter types array is not empty
         if (method.getParameterTypes().length > 0) {

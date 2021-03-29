@@ -23,13 +23,13 @@ public class TestCommand extends Command {
 
     @Default
     boolean handle() {
-        System.out.println("im fucking here");
+        System.out.println("handle()V");
         return true;
     }
 
     @Default
     boolean handle(int number) {
-        System.out.println("num: " + number);
+        System.out.println("handle(I) > num: " + number);
         return true;
     }
 
@@ -40,8 +40,14 @@ public class TestCommand extends Command {
     }
 
     @Argument("test")
+    boolean test(String name, float l) {
+        System.out.println("test(Ljava/lang/String;L)V > name: " + name + ", f: " + l);
+        return true;
+    }
+
+    @Argument("test")
     boolean test(String name, int l) {
-        System.out.println("test(Ljava/lang/String;L)V -> name: " + name + ", l: " + l);
+        System.out.println("test(Ljava/lang/String;L)V > name: " + name + ", l: " + l);
         return true;
     }
 

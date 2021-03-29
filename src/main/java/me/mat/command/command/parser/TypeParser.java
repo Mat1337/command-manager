@@ -60,9 +60,10 @@ public class TypeParser {
                 continue;
             }
 
-            if (TypeUtil.isNumber(type) && TypeUtil.isNumber(arg)
-                    && !canParseNumber(type, arg)) {
-                return false;
+            if (TypeUtil.isNumber(type) && TypeUtil.isNumber(arg)) {
+                if (!canParseNumber(type, arg)) {
+                    return false;
+                }
             } else {
                 if (parserMap.containsKey(type)) {
                     if (!parserMap.get(type).parse(type, arg)) {

@@ -113,7 +113,7 @@ public class CommandManager {
         if (arguments.length == 0) {
 
             // try to find the default method with no arguments
-            CommandArgument commandArgument = command.find(null, null, typeParser);
+            CommandArgument commandArgument = command.find(null, new String[0], typeParser);
 
             // if the command argument was found
             if (commandArgument != null) {
@@ -164,6 +164,12 @@ public class CommandManager {
 
             // return out of the method
             return true;
+        }
+
+        if (finalArgs.length == 0 && commandArgument.getLabel().equalsIgnoreCase(Command.DEFAULT_KEY)) {
+            finalArgs = new String[]{
+                    arguments[0]
+            };
         }
 
         // if the invoke was successful
