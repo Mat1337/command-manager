@@ -1,10 +1,12 @@
 package me.mat.command;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import me.mat.command.command.Command;
 import me.mat.command.command.CommandArgument;
 import me.mat.command.command.channel.OutputChannel;
 import me.mat.command.command.exception.CommandCreationException;
+import me.mat.command.command.parser.Parser;
 import me.mat.command.command.parser.TypeParser;
 
 import java.lang.reflect.Constructor;
@@ -22,12 +24,24 @@ import java.util.Set;
 @AllArgsConstructor
 public class CommandManager {
 
+    @Getter
     private final OutputChannel outputChannel;
+
     private final Set<Command> commands;
     private final TypeParser typeParser;
 
     public CommandManager(OutputChannel outputChannel) {
         this(outputChannel, new HashSet<>(), new TypeParser());
+    }
+
+    /**
+     * Add a new type parser
+     *
+     * @param parser that you want to add
+     */
+
+    public void addParser(Class<?> type, Parser parser) {
+        typeParser.addParser(type, parser);
     }
 
     /**

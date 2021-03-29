@@ -11,9 +11,16 @@ import java.util.Map;
  * @author mat
  * @since 3/28/2021
  */
+
 public class TypeParser {
 
     private final Map<Class<?>, Parser> parserMap = new HashMap<>();
+
+    public void addParser(Class<?> type, Parser parser) {
+        if (!parserMap.containsKey(type)) {
+            parserMap.put(type, parser);
+        }
+    }
 
     public Object[] parse(Class<?>[] types, String[] args) {
         if ((types == null || args == null)
@@ -82,6 +89,16 @@ public class TypeParser {
         return true;
     }
 
+    /**
+     * Checks if an argument can be parsed
+     * to a number type
+     *
+     * @param type of number that you want
+     * @param arg  that you want to parse
+     *
+     * @return true/false depending if it can be parsed or not
+     */
+
     private boolean canParseNumber(Class<?> type, String arg) {
         try {
             return parseNumber(type, arg) != null;
@@ -89,6 +106,17 @@ public class TypeParser {
             return false;
         }
     }
+
+    /**
+     * Parses an argument into a number
+     *
+     * @param type of the argument that will be parsed to
+     * @param arg  argument that will be parsed
+     *
+     * @return number
+     *
+     * @throws NumberFormatException thrown if parsing failed
+     */
 
     private Object parseNumber(Class<?> type, String arg) throws NumberFormatException {
         if (type.equals(byte.class)) {
