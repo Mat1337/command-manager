@@ -76,8 +76,14 @@ public class CommandManager {
                     // if the create object is an instance of the command class
                     if (obj instanceof Command) {
 
+                        // cast the object to the command
+                        Command command = (Command) obj;
+
+                        // update its command manager
+                        command.commandManager = this;
+
                         // add the command to the set
-                        commands.add((Command) obj);
+                        commands.add(command);
                     }
                 } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
                     e.printStackTrace();

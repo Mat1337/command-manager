@@ -1,5 +1,7 @@
 package me.mat.command.command;
 
+import me.mat.command.CommandManager;
+import me.mat.command.command.channel.OutputChannel;
 import me.mat.command.command.exception.CommandCreationException;
 import me.mat.command.command.manifest.Argument;
 import me.mat.command.command.manifest.CommandInfo;
@@ -25,6 +27,8 @@ public class Command {
 
     private final CommandInfo commandInfo;
     private final List<CommandArgument> commandArguments;
+
+    public CommandManager commandManager;
 
     public Command() {
         // define the command info
@@ -264,6 +268,17 @@ public class Command {
 
         // else throw a command creation exception
         throw new CommandCreationException(aClass.getName() + " does not have a " + CommandInfo.class.getName());
+    }
+
+    /**
+     * Returns the currently used
+     * output channel for messages
+     *
+     * @return {@link OutputChannel}
+     */
+
+    protected OutputChannel getChannel() {
+        return commandManager.getOutputChannel();
     }
 
 }

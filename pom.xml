@@ -6,7 +6,7 @@
 
     <groupId>me.mat</groupId>
     <artifactId>command-manager</artifactId>
-    <version>1.2</version>
+    <version>1.4</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
