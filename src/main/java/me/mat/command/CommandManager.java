@@ -35,7 +35,6 @@ public class CommandManager {
      * the command manager
      *
      * @param aClass {@link Command}
-     *
      * @throws CommandCreationException if command creation fails it will throw the exception
      */
 
@@ -62,8 +61,14 @@ public class CommandManager {
                     // if the create object is an instance of the command class
                     if (obj instanceof Command) {
 
+                        // cast the object to the command
+                        Command command = (Command) obj;
+
+                        // update the output channel
+                        command.setOutputChannel(outputChannel);
+
                         // add the command to the set
-                        commands.add((Command) obj);
+                        commands.add(command);
                     }
                 } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
                     e.printStackTrace();

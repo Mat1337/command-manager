@@ -1,5 +1,7 @@
 package me.mat.command.command;
 
+import lombok.Setter;
+import me.mat.command.command.channel.OutputChannel;
 import me.mat.command.command.exception.CommandCreationException;
 import me.mat.command.command.manifest.Argument;
 import me.mat.command.command.manifest.CommandInfo;
@@ -26,6 +28,9 @@ public class Command {
     private final CommandInfo commandInfo;
     private final List<CommandArgument> commandArguments;
 
+    @Setter
+    private OutputChannel outputChannel;
+
     public Command() {
         // define the command info
         CommandInfo commandInfo = null;
@@ -49,13 +54,24 @@ public class Command {
         this.loadArguments();
     }
 
+    protected void print(String msg, Object... args) {
+        outputChannel.print(msg, args);
+    }
+
+    protected void warn(String msg, Object... args) {
+        outputChannel.warn(msg, args);
+    }
+
+    protected void error(String msg, Object... args) {
+        outputChannel.error(msg, args);
+    }
+
     /**
      * Invokes the method with the given parameters
      *
      * @param commandArgument argument that will be executed
      * @param args            arguments of the call
      * @param typeParser      type parser used for parsing the arguments
-     *
      * @return true/false depending if the the method prints usage or not
      */
 
@@ -79,7 +95,6 @@ public class Command {
      * @param label      name of the argument
      * @param args       arguments to test against
      * @param typeParser type parser used for parsing the arguments
-     *
      * @return {@link CommandArgument}
      */
 
@@ -116,7 +131,6 @@ public class Command {
      * this command
      *
      * @param label that you want to check with
-     *
      * @return true/false depending if its matching or not
      */
 
@@ -190,7 +204,6 @@ public class Command {
      * contain the given annotation
      *
      * @param annotation {@link Annotation}
-     *
      * @return {@link Stream<Method>}
      */
 

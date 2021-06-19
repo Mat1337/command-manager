@@ -23,31 +23,31 @@ public class TestCommand extends Command {
 
     @Default
     boolean handle() {
-        System.out.println("handle()V");
+        print("handle()V");
         return true;
     }
 
     @Default
     boolean handle(int number) {
-        System.out.println("handle(I) > num: " + number);
+        print("handle(I) > num: {}", number);
         return true;
     }
 
     @Argument("test")
     boolean test() {
-        System.out.println("test()V");
+        print("test()V");
         return true;
     }
 
     @Argument("test")
     boolean test(String name, float l) {
-        System.out.println("test(Ljava/lang/String;L)V > name: " + name + ", f: " + l);
+        print("test(Ljava/lang/String;L)V > name: {}, f: {}", name, l);
         return true;
     }
 
     @Argument("test")
     boolean test(String name, int l) {
-        System.out.println("test(Ljava/lang/String;L)V > name: " + name + ", l: " + l);
+        print("test(Ljava/lang/String;L)V > name: {}, f: {}", name, l);
         return true;
     }
 
